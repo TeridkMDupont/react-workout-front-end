@@ -26,11 +26,12 @@ const WorkoutDetails = () => {
         </header>
           <h2>Intensity Level: {workout.rating}</h2>
           {workout.exercises.map((exercise) => (
-            <li key={exercise._id}>
+            <article key={exercise._id}>
                 <p>Exercise Name: {exercise.name}</p>
                 <p>Category: {exercise.category}</p> 
-                <p>Description: {exercise.description}</p> <br/>
-            </li>
+                <p>Description: {exercise.description}</p>
+                <br/>
+            </article> 
           ))}
           <p>
             {`${workout.author.username} posted on
@@ -39,6 +40,20 @@ const WorkoutDetails = () => {
       </section>
       <section>
         <h2>Comments</h2>
+
+        {!workout.comments.length && <p>There are no comments.</p>}
+
+        {workout.comments.map((comment) => (
+            <article key={comment._id}>
+                <header>
+                    <p>
+                      {`${comment.author.username} posted on
+                      ${new Date(comment.createdAt).toLocaleDateString()}`}
+                    </p>
+                </header>
+                <p>{comment.text}</p>
+            </article>
+        ))}
       </section>
     </main>
     )
