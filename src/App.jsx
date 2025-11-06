@@ -7,6 +7,7 @@ import SignInForm from './components/SignInForm/SignInForm';
 import Landing from './components/Landing/Landing';
 import Dashboard from './components/Dashboard/Dashboard';
 import CommunityPage from './components/CommunityPage/CommunityPage';
+import WorkoutDetails from './components/WorkoutDetails/WorkoutDetails';
 
 import { UserContext } from './contexts/UserContext';
 import * as workoutService from './services/workoutService';
@@ -31,6 +32,7 @@ const App = () => {
         {user ? (
           <>
             <Route path='/workouts' element={<CommunityPage workouts={workouts}/>} />
+            <Route path='/workouts/:workoutId' element={<WorkoutDetails/>} />
           </>
         ) : (
           <>

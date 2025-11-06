@@ -1,0 +1,47 @@
+import { useParams } from "react-router";
+import { useState, useEffect } from "react";
+
+import * as workoutService from '../../services/workoutService';
+
+const WorkoutDetails = () => {
+    const [workout, setWorkout] = useState(null);
+    const { workoutId } = useParams();
+
+    useEffect(() => {
+        const fetchWorkout = async () => {
+            const workoutData = await workoutService.show(workoutId)
+            setWorkout(workoutData)
+        }
+        fetchWorkout();
+    }, [workoutId])
+    
+
+    if (!workout) return <main>Loading...</main>
+
+    return (
+    <main>
+      <section>
+        <header>
+          <h1>{workout.name}</h1>
+        </header>
+          <h2>Intensity Level: {workout.rating}</h2>
+          {workout.exercises.map((exercise) => (
+            <li key={exercise._id}>
+                <p>Exercise Name: {exercise.name}</p>
+                <p>Category: {exercise.category}</p> 
+                <p>Description: {exercise.description}</p> <br/>
+            </li>
+          ))}
+          <p>
+            {`${workout.author.username} posted on
+            ${new Date(workout.createdAt).toLocaleDateString()}`}
+          </p>
+      </section>
+      <section>
+        <h2>Comments</h2>
+      </section>
+    </main>
+    )
+};
+
+export default WorkoutDetails;
