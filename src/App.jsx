@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router';
+import { Routes, Route, useNavigate } from 'react-router';
 
 import NavBar from './components/NavBar/NavBar';
 import SignUpForm from './components/SignUpForm/SignUpForm';
@@ -8,13 +8,18 @@ import Landing from './components/Landing/Landing';
 import Dashboard from './components/Dashboard/Dashboard';
 import CommunityPage from './components/CommunityPage/CommunityPage';
 import WorkoutDetails from './components/WorkoutDetails/WorkoutDetails';
+import WorkoutForm from './components/WorkoutForm/WorkoutForm';
+import ExerciseForm from './components/ExerciseForm/ExerciseForm';
 
 import { UserContext } from './contexts/UserContext';
 import * as workoutService from './services/workoutService';
+import * as exerciseService from './services/exerciseService'
 
 const App = () => {
   const { user } = useContext(UserContext);
   const [workouts, setWorkouts] =useState([]);
+  const [exercises, setExercises] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAllWorkouts = async () => {
@@ -23,6 +28,18 @@ const App = () => {
     };
     if (user) fetchAllWorkouts()
   }, [user])
+
+  const handleAddWorkout = async (workoutFormData) => {
+    const newWorkout = await workoutService.create(workoutFormData);
+    setWorkouts([newWorkout, ...workouts]);
+    navigate('/workouts')
+  };
+
+  const handleAddExercise = async (exerciseFormData) => {
+    const newExercise = await exerciseService.create(exerciseFormData);
+    setExercises([newExercise, ...exercises]);
+    navigate('/exercises');
+  }
   
   return (
     <>
@@ -32,6 +49,8 @@ const App = () => {
         {user ? (
           <>
             <Route path='/workouts' element={<CommunityPage workouts={workouts}/>} />
+            <Route path='/exercises/new' element={<ExerciseForm handleAddExercise={handleAddExercise}/>} />
+            <Route path='/workouts/new' element={<WorkoutForm handleAddWorkout={handleAddWorkout}/>} />
             <Route path='/workouts/:workoutId' element={<WorkoutDetails/>} />
           </>
         ) : (

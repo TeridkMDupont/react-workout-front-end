@@ -17,12 +17,29 @@ const show = async (workoutId) => {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     });
     return res.json();
-    }catch (err) {
-        console.log(err)
+    }catch (error) {
+        console.log(error)
+    }
+};
+
+const create = async (workoutFormData) => {
+    try {
+        const res = await fetch(BASE_URL,{
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(workoutFormData),
+        })
+        return res.json();
+    }catch (error) {
+        console.log(error)
     }
 }
 
 export {
     index,
     show,
+    create,
 }
