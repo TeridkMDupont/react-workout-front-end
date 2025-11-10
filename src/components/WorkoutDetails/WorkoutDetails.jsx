@@ -1,5 +1,6 @@
 import { useParams } from "react-router";
 import { useState, useEffect } from "react";
+import CommentForm from "../CommentForm/CommentForm";
 
 import * as workoutService from '../../services/workoutService';
 
@@ -14,6 +15,11 @@ const WorkoutDetails = () => {
         }
         fetchWorkout();
     }, [workoutId])
+
+    const handleAddComment = async (commentFormData) => {
+      const newComment = await workoutService.createComment(workoutId, commentFormData);
+      setWorkout({...workout, comments: [...workout.comments, newComment] });
+    }
     
 
     if (!workout) return <main>Loading...</main>
@@ -40,6 +46,7 @@ const WorkoutDetails = () => {
       </section>
       <section>
         <h2>Comments</h2>
+        <CommentForm handleAddComment={handleAddComment}/>
 
         {!workout.comments.length && <p>There are no comments.</p>}
 
