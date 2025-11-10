@@ -63,6 +63,14 @@ const WorkoutForm = (props) => {
         })
     }
 
+    const handleRemoveExercise = (exerciseToRemove) => {
+        const updatedExercises = formData.exercises.filter((exercise) => exercise._id !== exerciseToRemove);
+        setFormData({
+            ...formData,
+            exercises: updatedExercises
+        })
+    }
+
     const handleSubmit = (event) => {
         event.preventDefault();
         if (workoutId) {
@@ -113,6 +121,21 @@ const WorkoutForm = (props) => {
                 </select>
                 <button type="submit">Submit</button>
             </form>
+            <div>
+                <h2>Selected Exercises</h2>
+                <ul>
+                    {formData.exercises.length > 0 ? (
+                        formData.exercises.map((exercise) => (
+                            <li key={exercise._id}>
+                                <h3>Name: {exercise.name}</h3>
+                                <button onClick={() => handleRemoveExercise(exercise._id)}>Remove Exercise</button>
+                            </li>
+                        ))
+                    ) :(
+                        <p>Add some exercises to your Workout!</p>
+                    )}
+                </ul>
+            </div>
                 <div>
                     <ul>
                         {filteredExercises.length > 0 ? (
