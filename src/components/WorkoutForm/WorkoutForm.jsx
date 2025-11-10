@@ -4,8 +4,8 @@ import * as exerciseService from '../../services/exerciseService'
 const WorkoutForm = (props) => {
     const [formData, setFormData] = useState({
         name: '',
-        rating: '',
-        exercises: '',
+        rating: 0,
+        exercises: [],
     });
     const [exercises, setExercises] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState("all");
@@ -38,13 +38,16 @@ const WorkoutForm = (props) => {
             const filtered = exercises.filter(
                 (exercise) => exercise.category === selectedCategory
             )
-            setFilteredExercises(filtered)
+            setFilteredExercises(filtered) 
         }
     }, [selectedCategory, exercises])
 
-    const handleAddExercise = (exercise) => {
-        const exerciseArray = [...formData.exercises, exercise];
-        setFormData(exerciseArray)
+    const handleAddExercise = (exerciseId) => {
+        const exerciseArray = [...formData.exercises, exerciseId];
+        setFormData({
+            ...formData,
+            exercises: exerciseArray,
+        })
     }
 
     const handleSubmit = (event) => {
@@ -55,6 +58,7 @@ const WorkoutForm = (props) => {
 
     return (
         <main>
+            <h1>Create a Workout</h1>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="name-input">Workout Name</label>
                 <input
@@ -79,7 +83,6 @@ const WorkoutForm = (props) => {
                 required
                 name="exercises"
                 id="exercise-input"
-                value={formData.exercises}
                 onChange={handleCategoryChange}>
                     <option value="all">Show All</option>
                     <option value="Back">Back</option>
@@ -98,10 +101,10 @@ const WorkoutForm = (props) => {
                         {filteredExercises.length > 0 ? (
                             filteredExercises.map((exercise) =>(
                                 <li key={exercise._id}>
-                                    {exercise.name}
-                                    {exercise.category}
-                                    {exercise.description}
-                                    <button onClick={handleAddExercise}>Add Exercise</button>
+                                    <h2>Name: {exercise.name} </h2>
+                                    <h3>Category: {exercise.category}</h3>
+                                    <p>Description: {exercise.description}</p>
+                                    <button onClick={() => handleAddExercise(exercise._id)}>Add Exercise</button>
                                 </li>
                             ))
                         ) : (

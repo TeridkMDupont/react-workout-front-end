@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import * as exerciseService from '../../services/exerciseService'
 
 const ExerciseForm = (props) => {
     const [formData, setFormData] = useState({
@@ -6,6 +7,15 @@ const ExerciseForm = (props) => {
         category: 'Back',
         description: '',
     });
+     const [exercises, setExercises] = useState([]);
+
+        useEffect(() => {
+            const fetchAllExercises = async () => {
+                const exerciseData = await exerciseService.index();
+                setExercises(exerciseData);
+            }
+            fetchAllExercises();
+        }, [])
 
     const handleChange = (event) => {
         setFormData({...formData, [event.target.name]: event.target.value})
@@ -14,10 +24,15 @@ const ExerciseForm = (props) => {
     const handleSubmit = (event) => {
         event.preventDefault();
         props.handleAddExercise(formData);
+        setFormData({ name: "", 
+            category: "Back", 
+            description: "" 
+        }); 
     }
 
     return (
         <main>
+            <h1>Submit an Exercise</h1>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="name-input">Name</label>
                 <input
@@ -56,6 +71,21 @@ const ExerciseForm = (props) => {
                 />
                 <button type="submit">Submit Exercise</button>
             </form>
+            <div>
+                <ul>
+                    {exercises.length > 0 ?(
+                        exercises.map((exercise) => (
+                            <li key={exercise._id}>
+                                <h2>Name: {exercise.name} </h2>
+                                <h3>Category: {exercise.category}</h3>
+                                <p>Dexcription: {exercise.description}</p>
+                            </li>
+                        ))
+                    ) : (
+                        <p>No exercises found!</p>
+                    )}
+                </ul>
+            </div>
         </main>
     )
 

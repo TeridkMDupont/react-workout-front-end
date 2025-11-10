@@ -49,6 +49,7 @@ const App = () => {
         {user ? (
           <>
             <Route path='/workouts' element={<CommunityPage workouts={workouts}/>} />
+            <Route path='/exercises' element={<ExerciseForm exercises={exercises}/>} />
             <Route path='/exercises/new' element={<ExerciseForm handleAddExercise={handleAddExercise}/>} />
             <Route path='/workouts/new' element={<WorkoutForm handleAddWorkout={handleAddWorkout}/>} />
             <Route path='/workouts/:workoutId' element={<WorkoutDetails/>} />
