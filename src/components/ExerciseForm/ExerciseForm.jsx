@@ -1,11 +1,9 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, } from "react";
 import * as exerciseService from '../../services/exerciseService'
 import { useParams, Link } from "react-router";
-import { UserContext } from "../../contexts/UserContext";
 
 const ExerciseForm = (props) => {
-    const { exerciseId } =useParams();
-    const { user } = useContext(UserContext)
+    const { exerciseId } = useParams();
     const [formData, setFormData] = useState({
         name: '',
         category: 'Back',

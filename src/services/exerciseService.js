@@ -40,10 +40,25 @@ const create = async (exerciseFormData) => {
   }
 };
 
+const deleteExercise = async (exerciseId) => {
+  try {
+    const res = await fetch(`${BASE_URL}/${exerciseId}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    return res.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 
 
 export {
     index,
     show,
     create,
+    deleteExercise,
 }

@@ -1,10 +1,12 @@
 import { useParams } from "react-router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import * as exerciseService from '../../services/exerciseService';
+import { UserContext } from "../../contexts/UserContext";
 
-const ExerciseDetails = () => {
+const ExerciseDetails = (props) => {
     const [exercise, setExercise] = useState(null);
     const {exerciseId } = useParams();
+    const { user } = useContext(UserContext);
 
     useEffect(() => {
     const fetchExercise = async () => {
@@ -27,6 +29,11 @@ return (
             {`${exercise.author.username} posted on
             ${new Date(exercise.createdAt).toLocaleDateString()}`}
           </p>
+          {exercise.author._id === user._id && (
+            <>
+            <button onClick={() => props.handleDeleteExercise(exerciseId)}>Delete</button>
+            </>
+          )}
         </header>
       </section>
     </main>
