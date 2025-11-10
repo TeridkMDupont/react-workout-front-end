@@ -55,9 +55,24 @@ const createComment = async (workoutId, commentFormData) => {
 };
 
 
+const deleteWorkout = async (workoutId) => {
+  try {
+    const res = await fetch(`${BASE_URL}/${workoutId}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    return res.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export {
     index,
     show,
     create,
     createComment,
+    deleteWorkout,
 }

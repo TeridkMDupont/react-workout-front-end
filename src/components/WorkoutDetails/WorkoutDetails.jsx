@@ -1,12 +1,14 @@
 import { useParams } from "react-router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { UserContext } from "../../contexts/UserContext";
 import CommentForm from "../CommentForm/CommentForm";
 
 import * as workoutService from '../../services/workoutService';
 
-const WorkoutDetails = () => {
+const WorkoutDetails = (props) => {
     const [workout, setWorkout] = useState(null);
     const { workoutId } = useParams();
+    const { user } = useContext(UserContext);
 
     useEffect(() => {
         const fetchWorkout = async () => {
@@ -43,6 +45,11 @@ const WorkoutDetails = () => {
             {`${workout.author.username} posted on
             ${new Date(workout.createdAt).toLocaleDateString()}`}
           </p>
+          {workout.author._id === user._id && (
+            <>
+              <button onClick={() => props.handleDeleteWorkout(workoutId)}>Delete</button>
+            </>
+          )}
       </section>
       <section>
         <h2>Comments</h2>
