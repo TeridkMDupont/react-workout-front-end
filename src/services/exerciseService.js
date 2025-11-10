@@ -12,6 +12,18 @@ const index = async () => {
     }
 };
 
+
+const show = async (exerciseId) => {
+  try {
+    const res = await fetch(`${BASE_URL}/${exerciseId}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    });
+    return res.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const create = async (exerciseFormData) => {
   try {
     const res = await fetch(BASE_URL, {
@@ -32,5 +44,6 @@ const create = async (exerciseFormData) => {
 
 export {
     index,
+    show,
     create,
 }

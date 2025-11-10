@@ -1,7 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import * as exerciseService from '../../services/exerciseService'
+import { useParams, Link } from "react-router";
+import { UserContext } from "../../contexts/UserContext";
 
 const ExerciseForm = (props) => {
+    const { exerciseId } =useParams();
+    const { user } = useContext(UserContext)
     const [formData, setFormData] = useState({
         name: '',
         category: 'Back',
@@ -75,11 +79,12 @@ const ExerciseForm = (props) => {
                 <ul>
                     {exercises.length > 0 ?(
                         exercises.map((exercise) => (
-                            <li key={exercise._id}>
+                            <Link key={exercise._id} to={`/exercises/${exercise._id}`}>
+                                <article>
                                 <h2>Name: {exercise.name} </h2>
                                 <h3>Category: {exercise.category}</h3>
-                                <p>Dexcription: {exercise.description}</p>
-                            </li>
+                                </article>
+                            </Link>
                         ))
                     ) : (
                         <p>No exercises found!</p>

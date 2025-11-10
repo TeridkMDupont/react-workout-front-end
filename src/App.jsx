@@ -10,6 +10,7 @@ import CommunityPage from './components/CommunityPage/CommunityPage';
 import WorkoutDetails from './components/WorkoutDetails/WorkoutDetails';
 import WorkoutForm from './components/WorkoutForm/WorkoutForm';
 import ExerciseForm from './components/ExerciseForm/ExerciseForm';
+import ExerciseDetails from './components/ExerciseDetails/ExerciseDetails';
 
 import { UserContext } from './contexts/UserContext';
 import * as workoutService from './services/workoutService';
@@ -63,6 +64,7 @@ const App = () => {
             <Route path='/workouts' element={<CommunityPage workouts={workouts}/>} />
             <Route path='/exercises' element={<ExerciseForm exercises={exercises}/>} />
             <Route path='/exercises/new' element={<ExerciseForm handleAddExercise={handleAddExercise}/>} />
+            <Route path='/exercises/:exerciseId' element={<ExerciseDetails exercises={exercises}/>} />
             <Route path='/workouts/new' element={<WorkoutForm handleAddWorkout={handleAddWorkout}/>} />
             <Route path='/workouts/:workoutId' element={<WorkoutDetails handleDeleteWorkout={handleDeleteWorkout}/>} />
             <Route path='/workouts/:workoutId/edit' element={<WorkoutForm handleUpdateWorkout={handleUpdateWorkout}/>} />
