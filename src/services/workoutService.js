@@ -69,10 +69,27 @@ const deleteWorkout = async (workoutId) => {
   }
 };
 
+async function update(workoutId, workoutFormData) {
+  try {
+    const res = await fetch(`${BASE_URL}/${workoutId}`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(workoutFormData),
+    });
+    return res.json();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export {
     index,
     show,
     create,
     createComment,
     deleteWorkout,
+    update,
 }

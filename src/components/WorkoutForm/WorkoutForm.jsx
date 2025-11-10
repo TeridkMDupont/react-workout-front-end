@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router";
 import * as exerciseService from '../../services/exerciseService'
+import * as workoutService from '../../services/workoutService';
+
 
 const WorkoutForm = (props) => {
+    const { workoutId } = useParams();
     const [formData, setFormData] = useState({
         name: '',
         rating: 0,
@@ -10,6 +14,15 @@ const WorkoutForm = (props) => {
     const [exercises, setExercises] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState("all");
     const [filteredExercises, setFilteredExercises] = useState([])
+
+    useEffect(() => {
+    const fetchWorkout = async () => {
+      const workoutData = await workoutService.show(workoutId);
+      setFormData(workoutData);
+    };
+    if (workoutId) fetchWorkout();
+    return () => setFormData({ name: '', rating: 0, exercises: []})
+  }, [workoutId]);
 
 
     useEffect(() => {
@@ -52,13 +65,17 @@ const WorkoutForm = (props) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        props.handleAddWorkout(formData)
+        if (workoutId) {
+            props.handleUpdateWorkout(workoutId, formData)
+        } else {
+            props.handleAddWorkout(formData)
+        }
     };
 
 
     return (
         <main>
-            <h1>Create a Workout</h1>
+            <h1>{workoutId ? "Edit Workout" : "Create a Workout"}</h1>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="name-input">Workout Name</label>
                 <input

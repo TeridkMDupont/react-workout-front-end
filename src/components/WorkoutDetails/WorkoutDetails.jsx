@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { useParams, Link } from "react-router";
 import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import CommentForm from "../CommentForm/CommentForm";
@@ -47,6 +47,7 @@ const WorkoutDetails = (props) => {
           </p>
           {workout.author._id === user._id && (
             <>
+            <Link to={`/workouts/${workoutId}/edit`}>Edit</Link>
               <button onClick={() => props.handleDeleteWorkout(workoutId)}>Delete</button>
             </>
           )}

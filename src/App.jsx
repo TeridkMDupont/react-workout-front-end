@@ -43,8 +43,14 @@ const App = () => {
 
   const handleDeleteWorkout = async (workoutId) => {
     const deletedWorkout = await workoutService.deleteWorkout(workoutId)
-    setWorkouts(workouts.filter((workout) => workout._id !==workoutId ));
+    setWorkouts(workouts.filter((workout) => workout._id !== deletedWorkout._id ));
     navigate('/workouts')
+  };
+
+  const handleUpdateWorkout = async (workoutId, workoutFormData) => {
+    const updatedWorkout = await workoutService.update(workoutId, workoutFormData);
+    setWorkouts(workouts.map((workout) => (workoutId === workout._id ? updatedWorkout : workout)))
+    navigate(`/workouts/${workoutId}`)
   }
   
   return (
@@ -59,6 +65,7 @@ const App = () => {
             <Route path='/exercises/new' element={<ExerciseForm handleAddExercise={handleAddExercise}/>} />
             <Route path='/workouts/new' element={<WorkoutForm handleAddWorkout={handleAddWorkout}/>} />
             <Route path='/workouts/:workoutId' element={<WorkoutDetails handleDeleteWorkout={handleDeleteWorkout}/>} />
+            <Route path='/workouts/:workoutId/edit' element={<WorkoutForm handleUpdateWorkout={handleUpdateWorkout}/>} />
           </>
         ) : (
           <>
