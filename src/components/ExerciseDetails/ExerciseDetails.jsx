@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { useParams, Link } from "react-router";
 import { useState, useEffect, useContext } from "react";
 import * as exerciseService from '../../services/exerciseService';
 import { UserContext } from "../../contexts/UserContext";
@@ -31,6 +31,7 @@ return (
           </p>
           {exercise.author._id === user._id && (
             <>
+            <Link to={`/exercises/${exerciseId}/edit`}>Edit</Link>
             <button onClick={() => props.handleDeleteExercise(exerciseId)}>Delete</button>
             </>
           )}

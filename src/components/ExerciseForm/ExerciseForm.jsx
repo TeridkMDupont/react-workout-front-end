@@ -19,22 +19,35 @@ const ExerciseForm = (props) => {
             fetchAllExercises();
         }, [])
 
+    useEffect(() => {
+      const fetchExercise = async () => {
+        const exerciseData = await exerciseService.show(exerciseId);
+        setFormData(exerciseData);
+        };
+        if (exerciseId) fetchExercise();
+        return () => setFormData({ name: '', category: 'Back', description: ''})
+    }, [exerciseId]);
+
     const handleChange = (event) => {
         setFormData({...formData, [event.target.name]: event.target.value})
     };
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        props.handleAddExercise(formData);
-        setFormData({ name: "", 
+        if (exerciseId) {
+            props.handleUpdateExercise(exerciseId, formData)
+        } else {
+            props.handleAddExercise(formData);
+            setFormData({ name: "", 
             category: "Back", 
             description: "" 
         }); 
+        }
     }
 
     return (
         <main>
-            <h1>Submit an Exercise</h1>
+            <h1>{exerciseId ? "Edit Exercise" : "Submit an Exercise"}</h1>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="name-input">Name</label>
                 <input

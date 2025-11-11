@@ -54,6 +54,22 @@ const deleteExercise = async (exerciseId) => {
   }
 };
 
+async function update(exerciseId, exerciseFormData) {
+  try {
+    const res = await fetch(`${BASE_URL}/${exerciseId}`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(exerciseFormData),
+    });
+    return res.json();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 
 
 export {
@@ -61,4 +77,5 @@ export {
     show,
     create,
     deleteExercise,
+    update,
 }
