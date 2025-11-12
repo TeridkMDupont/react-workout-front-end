@@ -1,38 +1,49 @@
-import { useEffect, useState, useContext } from 'react';
-
+import { Link } from 'react-router'
+import { useContext } from 'react';
 import { UserContext } from '../../contexts/UserContext';
+import styles from './Dashboard.module.css';
 
-import * as userService from '../../services/userService';
 
-const Dashboard = () => {
+const Dashboard = (props) => {
   const { user } = useContext(UserContext);
-  const [ users, setUsers ] = useState([]);
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const fetchedUsers = await userService.index();
-        setUsers(fetchedUsers);
-      } catch (err) {
-        console.log(err)
-      }
-    }
-    if (user) fetchUsers();
-  }, [user]);
+    const userWorkouts = props.workouts.filter(
+    (workout) => workout.author._id === user._id
+  );
 
   return (
-    <main>
-      <h1>Welcome, {user.username}</h1>
-      <p>
-        This is the dashboard page where you can see a list of all the users.
-      </p>
-      <ul>
-        {users.map(user => (
-          <li key={user._id}>{user.username}</li>
-        ))}
-      </ul>
+    <main className={styles.container}>
+      <h2 className={styles.intro}>
+        Welcome to your Dashboard! All the workouts you create will appear here.
+      </h2>
+
+      {userWorkouts.length > 0 ? (
+        <section className={styles.workoutGrid}>
+          {userWorkouts.map((workout) => (
+            <Link
+              key={workout._id}
+              to={`/workouts/${workout._id}`}
+              className={styles.workoutLink}
+            >
+              <article className={styles.workoutCard}>
+                <header className={styles.header}>
+                  <h2>{workout.name}</h2>
+                  <h3>Intensity Level: {workout.rating}</h3>
+                </header>
+                <p className={styles.meta}>
+                  {`${workout.author.username} posted on ${new Date(
+                    workout.createdAt
+                  ).toLocaleDateString()}`}
+                </p>
+              </article>
+            </Link>
+          ))}
+        </section>
+      ) : (
+        <p className={styles.noWorkouts}>No Workouts to display!</p>
+      )}
     </main>
   );
-};
+}
 
 export default Dashboard;

@@ -1,0 +1,86 @@
+:root {
+  --bg-dark: #0e0e10;
+  --accent-green: #27ae60;
+  --accent-blue: #2d9cdb;
+  --accent-orange: #f2994a;
+  --text-light: #f5f6fa;
+  --text-gray: #aaa;
+}
+
+.container {
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2.5rem 1.5rem;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+.intro {
+  font-size: 1.2rem;
+  color: var(--text-gray);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.workoutGrid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.workoutLink {
+  text-decoration: none;
+  color: inherit;
+  flex: 1 1 300px;
+  max-width: 400px;
+  transition: transform 0.2s ease;
+}
+
+.workoutCard {
+  background-color: #1a1a1d;
+  border-radius: 10px;
+  border-left: 5px solid var(--accent-blue);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 180px;
+  transition: border-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.workoutCard:hover {
+  border-left-color: var(--accent-green);
+  transform: translateY(-5px);
+}
+
+.header h2 {
+  color: var(--accent-green);
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.header h3 {
+  color: var(--accent-blue);
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.meta {
+  color: var(--text-gray);
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+}
+
+.noWorkouts {
+  color: var(--accent-orange);
+  font-weight: 500;
+  text-align: center;
+  margin-top: 2rem;
+}

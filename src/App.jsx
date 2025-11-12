@@ -70,7 +70,7 @@ const App = () => {
     <>
       <NavBar/>
       <Routes>
-        <Route path='/' element={user ? <Dashboard /> : <Landing />} />
+        <Route path='/' element={user ? <Dashboard workouts={workouts}/> : <Landing />} />
         {user ? (
           <>
             <Route path='/workouts' element={<CommunityPage workouts={workouts}/>} />

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router';
 import { signIn } from '../../services/authService';
 
 import { UserContext } from '../../contexts/UserContext';
+import styles from './SignInForm.module.css';
 
 const SignInForm = () => {
   const navigate = useNavigate();
@@ -31,11 +32,12 @@ const SignInForm = () => {
   };
 
   return (
-    <main>
-      <h1>Sign In</h1>
+    <main className={styles.container}>
+      <section className={styles.formWrapper}>
+      <h1 className={styles.title}>Sign In</h1>
       <p>{message}</p>
-      <form autoComplete='off' onSubmit={handleSubmit}>
-        <div>
+      <form autoComplete='off' onSubmit={handleSubmit} className={styles.form}>
+        <div className={styles.inputGroup}>
           <label htmlFor='email'>Username:</label>
           <input
             type='text'
@@ -47,7 +49,7 @@ const SignInForm = () => {
             required
           />
         </div>
-        <div>
+        <div className={styles.inputGroup}>
           <label htmlFor='password'>Password:</label>
           <input
             type='password'
@@ -59,11 +61,12 @@ const SignInForm = () => {
             required
           />
         </div>
-        <div>
-          <button>Sign In</button>
-          <button onClick={() => navigate('/')}>Cancel</button>
+        <div className={styles.buttonGroup}>
+          <button className={styles.signInButton}>Sign In</button>
+          <button onClick={() => navigate('/')} className={styles.cancelButton}>Cancel</button>
         </div>
       </form>
+      </section>
     </main>
   );
 };

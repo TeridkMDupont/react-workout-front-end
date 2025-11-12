@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import * as exerciseService from '../../services/exerciseService'
 import * as workoutService from '../../services/workoutService';
+import styles from './WorkoutForm.module.css'
+
 
 
 const WorkoutForm = (props) => {
@@ -36,7 +38,6 @@ const WorkoutForm = (props) => {
 
     const handleCategoryChange = (event) => {
         setSelectedCategory(event.target.value)
-        setFormData({...formData, [event.target.name]: event.target.value})
     }
 
     const handleChange = (event) => {
@@ -73,6 +74,13 @@ const WorkoutForm = (props) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+
+        setFormData({
+            ...formData,
+            exercises: formData.exercises.map((exercise ) => {
+                return exercise._id
+            })
+        })
         if (workoutId) {
             props.handleUpdateWorkout(workoutId, formData)
         } else {
@@ -82,9 +90,11 @@ const WorkoutForm = (props) => {
 
 
     return (
-        <main>
-            <h1>{workoutId ? "Edit Workout" : "Create a Workout"}</h1>
-            <form onSubmit={handleSubmit}>
+        <main className={styles.container}>
+            <h1 className={styles.title}>
+                {workoutId ? "Edit Workout" : "Create a Workout"}
+                </h1>
+            <form className={styles.form} onSubmit={handleSubmit}>
                 <label htmlFor="name-input">Workout Name</label>
                 <input
                 required
@@ -117,41 +127,45 @@ const WorkoutForm = (props) => {
                     <option value="Legs">Legs</option>
                     <option value="Shoulders">Shoulders</option>
                     <option value="Abs">Abs</option>
-                    <option value="cardio">Cardio</option>
+                    <option value="Cardio">Cardio</option>
                 </select>
-                <button type="submit">Submit</button>
+                <button type="submit" className={styles.submitBtn}>Submit</button>
             </form>
-            <div>
+            <div className={styles.content}>
+                <section className={styles.selected}>
                 <h2>Selected Exercises</h2>
                 <ul>
                     {formData.exercises.length > 0 ? (
                         formData.exercises.map((exercise) => (
-                            <li key={exercise._id}>
+                            <li key={exercise._id} className={styles.exerciseItem}>
                                 <h3>Name: {exercise.name}</h3>
-                                <button onClick={() => handleRemoveExercise(exercise._id)}>Remove Exercise</button>
+                                <button className={styles.removeBtn} 
+                                onClick={() => handleRemoveExercise(exercise._id)}>Remove Exercise</button>
                             </li>
                         ))
                     ) :(
                         <p>Add some exercises to your Workout!</p>
                     )}
                 </ul>
+                </section>
             </div>
-                <div>
-                    <ul>
+                <section className={styles.available}>
+                    <h2>Available Exercises</h2>
+                    <ul className={styles.exerciseList}>
                         {filteredExercises.length > 0 ? (
                             filteredExercises.map((exercise) =>(
-                                <li key={exercise._id}>
+                                <li key={exercise._id} className={styles.exerciseCard}>
                                     <h2>Name: {exercise.name} </h2>
                                     <h3>Category: {exercise.category}</h3>
                                     <p>Description: {exercise.description}</p>
-                                    <button onClick={() => handleAddExercise(exercise._id)}>Add Exercise</button>
+                                    <button className={styles.addBtn} onClick={() => handleAddExercise(exercise)}>Add Exercise</button>
                                 </li>
                             ))
                         ) : (
                             <p>No exercises found!</p>
                         )}
                     </ul>
-                </div>
+                </section>
         </main>
     )
 }

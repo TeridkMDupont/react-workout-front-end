@@ -1,0 +1,75 @@
+:root {
+  --bg-dark: #0e0e10;
+  --accent-green: #27ae60;
+  --accent-blue: #2d9cdb;
+  --accent-orange: #f2994a;
+  --text-light: #f5f6fa;
+  --text-gray: #aaa;
+}
+
+
+.container {
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column; 
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  gap: 2rem;
+}
+
+
+.imageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.heroImage {
+  width: 260px;
+  height: auto;
+  filter: drop-shadow(0 0 12px rgba(45, 156, 219, 0.4));
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+
+.textSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 720px;
+  gap: 1rem;
+}
+
+.title {
+  font-size: 1.8rem;
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+.highlight {
+  color: var(--accent-blue);
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: var(--text-gray);
+  max-width: 500px;
+}
+
+
