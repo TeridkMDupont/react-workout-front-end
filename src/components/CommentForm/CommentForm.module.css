@@ -41,12 +41,6 @@
   font-size: 1rem;
   resize: vertical;
   min-height: 100px;
-  transition: border 0.2s ease;
-}
-
-.textarea:focus {
-  outline: none;
-  border-color: var(--accent-blue);
 }
 
 .submitButton {
